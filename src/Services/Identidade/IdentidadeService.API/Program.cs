@@ -1,4 +1,7 @@
+using IdentidadeService.Application.Interfaces;
+using IdentidadeService.Application.Services;
 using IdentidadeService.Infrastructure.Persistence;
+using IdentidadeService.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +10,10 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<IdentidadeDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IPasswordHashingService, PasswordHashingService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Add services to the container.
 
